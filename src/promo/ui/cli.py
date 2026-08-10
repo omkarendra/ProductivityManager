@@ -1,6 +1,14 @@
 # src/promo/ui/cli.py
 
+
+from promo.todo.service import TaskService
+from promo.todo.task import Task
+
+
 class CLI:
+
+    def __init__(self):
+        self.task_service = TaskService()
 
     def run(self):
         command = input("Promo > ").strip().lower()
@@ -9,7 +17,7 @@ class CLI:
     def dispatch(self, command):
         match command:
             case "add":
-                print("Add selected")
+                self.add_task()
 
             case "list":
                 print("List selected")
@@ -19,3 +27,8 @@ class CLI:
 
             case _:
                 print("Unknown command")
+
+    def add_task(self):
+        title = input("Title: ").strip()
+        task = Task(title=title)
+        self.task_service.add(task)
