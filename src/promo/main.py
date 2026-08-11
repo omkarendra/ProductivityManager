@@ -14,10 +14,8 @@ def main():
     db_path = "data/promo.db"
     init_db(db_path)
    
-    repo  = SQLiteTaskRepository(db_path)
-    service =TaskService(repo)
-    task = Task("test task")
-    service.add(task)
+    repository = SQLiteTaskRepository(db_path)
+    service = TaskService(repository)
 
     cli = CLI(service)
     cli.run()

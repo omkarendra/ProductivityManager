@@ -13,3 +13,6 @@ class TaskService:
         
     def list(self):
         return self.repository.find_all()
+    
+    def delete(self, task_id: int):
+        self.repository.delete(task_id)

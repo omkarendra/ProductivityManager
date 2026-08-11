@@ -43,4 +43,12 @@ class SQLiteTaskRepository(TaskRepository):
             ]
 
     def delete(self, task_id: int):
-        pass
+        connection = sqlite3.connect(self.database_path)
+
+        connection.execute(
+            "DELETE FROM tasks WHERE id = ?",
+            (task_id,)
+        )
+
+        connection.commit()
+        connection.close()

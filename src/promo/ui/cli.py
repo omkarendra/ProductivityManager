@@ -23,7 +23,7 @@ class CLI:
                 self.list_tasks()
 
             case "delete":
-                print("Delete selected")
+                self.delete_task()
 
             case _:
                 print("Unknown command")
@@ -38,4 +38,7 @@ class CLI:
 
         for task in tasks:
             print(f"{task.id}: {task.title}")
-            
+
+    def delete_task(self):
+        task_id = int(input("Task ID: "))
+        self.task_service.delete(task_id)
