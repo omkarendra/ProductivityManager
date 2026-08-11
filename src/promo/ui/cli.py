@@ -20,7 +20,7 @@ class CLI:
                 self.add_task()
 
             case "list":
-                print("List selected")
+                self.list_tasks()
 
             case "delete":
                 print("Delete selected")
@@ -32,3 +32,10 @@ class CLI:
         title = input("Title: ").strip()
         task = Task(title=title)
         self.task_service.add(task)
+
+    def list_tasks(self):
+        tasks = self.task_service.list()
+
+        for task in tasks:
+            print(f"{task.id}: {task.title}")
+            

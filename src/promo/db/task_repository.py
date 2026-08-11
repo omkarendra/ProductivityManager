@@ -24,7 +24,23 @@ class SQLiteTaskRepository(TaskRepository):
         connection.close()
 
     def find_all(self):
-        pass
+        connection = sqlite3.connect(self.database_path)
+
+        records = connection.execute(
+            "SELECT id, title, description, category, status FROM tasks"
+        ).fetchall()
+
+        connection.close()
+        return [
+                Task(
+                    title=row[1],
+                    description=row[2],
+                    category=row[3],
+                    status=row[4],
+                    task_id=row[0]
+                )
+                for row in records
+            ]
 
     def delete(self, task_id: int):
         pass

@@ -10,3 +10,6 @@ class TaskService:
 
     def add(self, task):
         self.repository.save(task)
+        
+    def list(self):
+        return self.repository.find_all()
