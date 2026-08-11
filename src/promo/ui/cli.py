@@ -7,8 +7,8 @@ from promo.todo.task import Task
 
 class CLI:
 
-    def __init__(self):
-        self.task_service = TaskService()
+    def __init__(self, task_service:TaskService):
+        self.task_service = task_service
 
     def run(self):
         command = input("Promo > ").strip().lower()

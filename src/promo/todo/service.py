@@ -1,5 +1,12 @@
 # src/promo/todo/service.py
+
+from promo.todo.repository import TaskRepository
+
+
 class TaskService:
 
+    def __init__(self, repository: TaskRepository):
+        self.repository = repository
+
     def add(self, task):
-        print(f"Adding task: {task.title}")
+        self.repository.save(task)
