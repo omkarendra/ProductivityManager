@@ -10,29 +10,22 @@ def init_db(db_path):
     database = Database(db_path)
     database.initialize()
     
-def category_test(db_path):
-    category = Category("Research")
-
-    category_repository = SQLiteCategoryRepository(db_path)
-    category_repository.save(category)
-
-    print(category.id)
-
-    found = category_repository.find_by_name("Research")
-    print(found.id, found.name)
-
 def main():
-    #cli = CLI()
-    #cli.run()
     db_path = "data/promo.db"
-    init_db(db_path)
-   
-    #repository = SQLiteTaskRepository(db_path)
-    #service = TaskService(repository)
 
-    #cli = CLI(service)
-    #cli.run()
-    category_test(db_path)
+    init_db(db_path)
+
+    task_repository = SQLiteTaskRepository(db_path)
+    category_repository = SQLiteCategoryRepository(db_path)
+
+    service = TaskService(
+        task_repository,
+        category_repository
+    )
+
+    cli = CLI(service)
+    cli.run()
+
 
 
 if __name__ == "__main__":

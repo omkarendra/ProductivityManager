@@ -14,10 +14,11 @@ class SQLiteTaskRepository(TaskRepository):
 
         connection.execute(
             """
-            INSERT INTO tasks (title)
-            VALUES (?)
+            INSERT INTO tasks (
+            title, description, category_id, status)
+            VALUES (?, ?, ?, ?)
             """,
-            (task.title,)
+            (task.title, task.description, task.category_id, task.status)
         )
 
         connection.commit()
@@ -27,7 +28,7 @@ class SQLiteTaskRepository(TaskRepository):
         connection = sqlite3.connect(self.database_path)
 
         records = connection.execute(
-            "SELECT id, title, description, category, status FROM tasks"
+            "SELECT id, title, description, category_id, status FROM tasks"
         ).fetchall()
 
         connection.close()
@@ -35,7 +36,7 @@ class SQLiteTaskRepository(TaskRepository):
                 Task(
                     title=row[1],
                     description=row[2],
-                    category=row[3],
+                    category_id=row[3],
                     status=row[4],
                     task_id=row[0]
                 )
