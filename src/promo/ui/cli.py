@@ -11,8 +11,13 @@ class CLI:
         self.task_service = task_service
 
     def run(self):
-        command = input("Promo > ").strip().lower()
-        self.dispatch(command)
+        while True:
+            command = input("Promo > ").strip().lower()
+
+            if command == "exit":
+                break
+
+            self.dispatch(command)
 
     def dispatch(self, command):
         match command:
