@@ -12,15 +12,23 @@ class Database:
 
     def initialize(self):
         connection = sqlite3.connect(self.database_path)
-
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE
+            )
+            """
+        )
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 description TEXT,
-                category TEXT,
-                status TEXT
+                category_id INTEGER,
+                status TEXT,
+                FOREIGN KEY (category_id) REFERENCES categories(id)
             )
             """
         )
