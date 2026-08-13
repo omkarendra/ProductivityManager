@@ -12,7 +12,9 @@ class TaskService:
         self.category_repository = category_repository
 
     def add(self, task):
-
+        if task.category:
+            category = self.get_or_create_category(task.category)
+            task.category_id = category.id
         self.task_repository.save(task)
         
     def list(self):

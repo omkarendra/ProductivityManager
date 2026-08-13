@@ -28,7 +28,12 @@ class SQLiteTaskRepository(TaskRepository):
         connection = sqlite3.connect(self.database_path)
 
         records = connection.execute(
-            "SELECT id, title, description, category_id, status FROM tasks"
+            """
+            SELECT tasks.id, tasks.title, tasks.description, categories.name, tasks.status
+            FROM tasks
+            LEFT JOIN categories
+                ON tasks.category_id = categories.id
+            """
         ).fetchall()
 
         connection.close()
@@ -36,7 +41,7 @@ class SQLiteTaskRepository(TaskRepository):
                 Task(
                     title=row[1],
                     description=row[2],
-                    category_id=row[3],
+                    category=row[3],
                     status=row[4],
                     task_id=row[0]
                 )
