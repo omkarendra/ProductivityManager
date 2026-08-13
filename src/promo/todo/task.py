@@ -6,4 +6,4 @@ class Task:
         self.description = description
         self.category = category
         self.category_id = category_id
-        self.status = status
+        self.status = status if status is not None else "pending"  # Default status is "pending"

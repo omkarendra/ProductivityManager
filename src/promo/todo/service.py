@@ -1,10 +1,15 @@
 # src/promo/todo/service.py
 
+from build.lib.promo.todo import task
 from promo.todo.category import Category
 from promo.todo.category_repository import CategoryRepository
 from promo.todo.repository import TaskRepository
 
-
+VALID_STATUSES = {
+    "pending",
+    "in_progress",
+    "completed"
+}
 class TaskService:
 
     def __init__(self, task_repository: TaskRepository, category_repository: CategoryRepository):
@@ -12,12 +17,17 @@ class TaskService:
         self.category_repository = category_repository
 
     def add(self, task):
+        print (f"Adding task: {task.title}, Category: {task.category}, Status: {task.status}")
+        if task.status is not None:
+            if task.status not in VALID_STATUSES:
+                raise ValueError(f"Invalid status: {task.status}")
+
         if task.category:
             category = self.get_or_create_category(task.category)
             task.category_id = category.id
         self.task_repository.save(task)
         
-    def list(self, category=None):
+    def find_tasks(self, category=None):
         return self.task_repository.find(category)
     
     def delete(self, task_id: int):

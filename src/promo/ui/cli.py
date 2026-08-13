@@ -27,7 +27,7 @@ class CLI:
         add_parser.add_argument("-t", "--title", required=True, help="Task title")
         add_parser.add_argument("-d", "--description", help="Task description")
         add_parser.add_argument("-c", "--category", help="Task category")
-        add_parser.add_argument("-s", "--status", help="Task status")
+        add_parser.add_argument("-s", "--status", choices=["pending", "in_progress", "completed"],help="Task status")
 
         list_parser.add_argument("-c", "--category", help="Filter tasks by category")
 
@@ -39,7 +39,7 @@ class CLI:
             self.list_tasks(args)
 
     def list_tasks(self, args):
-        tasks = self.task_service.list(args.category)
+        tasks = self.task_service.find_tasks(args.category)
 
         if not tasks:
             print("No tasks found.")
