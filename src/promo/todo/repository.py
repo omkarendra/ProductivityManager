@@ -17,7 +17,7 @@ class TaskRepository(ABC):
         pass
 
     @abstractmethod
-    def find_all(self):
+    def find(self):
         pass
 
     @abstractmethod

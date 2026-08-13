@@ -24,40 +24,22 @@ class CLI:
         add_parser = subparsers.add_parser( "add", help="Add a new task")
         list_parser = subparsers.add_parser("list", help="List tasks")
 
-        add_parser.add_argument(
-            "-t",
-            "--title",
-            required=True,
-            help="Task title"
-        )
+        add_parser.add_argument("-t", "--title", required=True, help="Task title")
+        add_parser.add_argument("-d", "--description", help="Task description")
+        add_parser.add_argument("-c", "--category", help="Task category")
+        add_parser.add_argument("-s", "--status", help="Task status")
 
-        add_parser.add_argument(
-            "-d",
-            "--description",
-            help="Task description"
-        )
-
-        add_parser.add_argument(
-            "-c",
-            "--category",
-            help="Task category"
-        )
-
-        add_parser.add_argument(
-            "-s",
-            "--status",
-            help="Task status"
-        )
+        list_parser.add_argument("-c", "--category", help="Filter tasks by category")
 
         args = parser.parse_args()
 
         if args.command == "add":
             self.add_task(args)
         elif args.command == "list":
-            self.list_tasks()
+            self.list_tasks(args)
 
-    def list_tasks(self):
-        tasks = self.task_service.list()
+    def list_tasks(self, args):
+        tasks = self.task_service.list(args.category)
 
         if not tasks:
             print("No tasks found.")

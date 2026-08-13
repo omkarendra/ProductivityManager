@@ -17,8 +17,8 @@ class TaskService:
             task.category_id = category.id
         self.task_repository.save(task)
         
-    def list(self):
-        return self.task_repository.find_all()
+    def list(self, category=None):
+        return self.task_repository.find(category)
     
     def delete(self, task_id: int):
         self.task_repository.delete(task_id)
