@@ -22,14 +22,23 @@ class CLI:
         )
 
         add_parser = subparsers.add_parser( "add", help="Add a new task")
-        list_parser = subparsers.add_parser("list", help="List tasks")
-
+        
         add_parser.add_argument("-t", "--title", required=True, help="Task title")
         add_parser.add_argument("-d", "--description", help="Task description")
         add_parser.add_argument("-c", "--category", help="Task category")
         add_parser.add_argument("-s", "--status", choices=["pending", "in_progress", "completed"],help="Task status")
 
+        list_parser = subparsers.add_parser("list", help="List tasks")
         list_parser.add_argument("-c", "--category", help="Filter tasks by category")
+        list_parser.add_argument("-s", "--status", choices=["pending", "in_progress", "completed"], help="Filter tasks by status")
+
+        update_parser = subparsers.add_parser("update", help="Update an existing task")
+
+        update_parser.add_argument("task_id", type=int, help="ID of the task to update")
+        update_parser.add_argument("-t", "--title", help="New task title")
+        update_parser.add_argument("-d", "--description", help="New task description")
+        update_parser.add_argument("-c", "--category", help="New task category")
+        update_parser.add_argument("-s", "--status", choices=["pending", "in_progress", "completed"], help="New task status")
 
         args = parser.parse_args()
 
@@ -37,7 +46,17 @@ class CLI:
             self.add_task(args)
         elif args.command == "list":
             self.list_tasks(args)
+        elif args.command == "update":
+            self.update_task(args)
 
+    def update_task(self, args):
+        self.task_service.update(
+            task_id=args.task_id,
+            title=args.title,
+            description=args.description,
+            category=args.category,
+            status=args.status
+        )
     def list_tasks(self, args):
         tasks = self.task_service.find_tasks(args.category)
 

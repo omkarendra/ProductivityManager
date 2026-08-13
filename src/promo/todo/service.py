@@ -43,3 +43,27 @@ class TaskService:
         self.category_repository.save(category)
 
         return category
+    def update(self, task_id, title=None, description=None, category=None, status=None):
+        task = self.task_repository.find_by_id(task_id)
+
+        if task is None:
+            raise ValueError(f"Task {task_id} not found")
+
+        if title is not None:
+            task.title = title
+
+        if description is not None:
+            task.description = description
+
+        if category is not None:
+            category_obj = self.get_or_create_category(category)
+            task.category_id = category_obj.id
+            task.category = category
+
+        if status is not None:
+            if status not in VALID_STATUSES:
+                raise ValueError(f"Invalid status: {status}")
+
+            task.status = status
+
+        self.task_repository.update(task)

@@ -24,7 +24,39 @@ class SQLiteTaskRepository(TaskRepository):
         connection.commit()
         connection.close()
 
+    def find_by_id(self, task_id):
+        connection = sqlite3.connect(self.database_path)
 
+        record = connection.execute(
+            """
+            SELECT
+                tasks.id,
+                tasks.title,
+                tasks.description,
+                categories.name,
+                tasks.category_id,
+                tasks.status
+            FROM tasks
+            LEFT JOIN categories
+                ON tasks.category_id = categories.id
+            WHERE tasks.id = ?
+            """,
+            (task_id,)
+        ).fetchone()
+
+        connection.close()
+
+        if record is None:
+            return None
+
+        return Task(
+            title=record[1],
+            description=record[2],
+            category=record[3],
+            category_id=record[4],
+            status=record[5],
+            task_id=record[0]
+        )
 
     def find(self, category=None):
         connection = sqlite3.connect(self.database_path)
