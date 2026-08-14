@@ -67,3 +67,9 @@ class TaskService:
             task.status = status
 
         self.task_repository.update(task)
+
+    def remove(self, task_id):
+        deleted = self.task_repository.delete(task_id)
+
+        if not deleted:
+            raise ValueError(f"Task {task_id} not found")

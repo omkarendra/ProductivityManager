@@ -100,14 +100,15 @@ class SQLiteTaskRepository(TaskRepository):
     def delete(self, task_id: int):
         connection = sqlite3.connect(self.database_path)
 
-        connection.execute(
+        cursor = connection.execute(
             "DELETE FROM tasks WHERE id = ?",
             (task_id,)
         )
 
         connection.commit()
         connection.close()
-
+        return cursor.rowcount > 0 # False: No record exist
+    
     def update(self, task):
         connection = sqlite3.connect(self.database_path)
 

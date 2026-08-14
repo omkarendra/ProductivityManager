@@ -40,6 +40,17 @@ class CLI:
         update_parser.add_argument("-c", "--category", help="New task category")
         update_parser.add_argument("-s", "--status", choices=["pending", "in_progress", "completed"], help="New task status")
 
+        remove_parser = subparsers.add_parser(
+            "remove",
+            help="Remove a task"
+        )
+
+        remove_parser.add_argument(
+            "task_id",
+            type=int,
+            help="ID of the task to remove"
+        )
+
         args = parser.parse_args()
 
         if args.command == "add":
@@ -48,6 +59,17 @@ class CLI:
             self.list_tasks(args)
         elif args.command == "update":
             self.update_task(args)
+        elif args.command == "remove":
+            self.remove_task(args)
+
+    def remove_task(self, args):
+        try:
+            self.task_service.remove(args.task_id)
+            print(f"Task {args.task_id} removed.")
+
+        except ValueError as e:
+            print(f"Error: {e}")
+
 
     def update_task(self, args):
         if all([
