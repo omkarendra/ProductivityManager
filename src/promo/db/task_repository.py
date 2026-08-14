@@ -107,3 +107,28 @@ class SQLiteTaskRepository(TaskRepository):
 
         connection.commit()
         connection.close()
+
+    def update(self, task):
+        connection = sqlite3.connect(self.database_path)
+
+        connection.execute(
+            """
+            UPDATE tasks
+            SET
+                title = ?,
+                description = ?,
+                category_id = ?,
+                status = ?
+            WHERE id = ?
+            """,
+            (
+                task.title,
+                task.description,
+                task.category_id,
+                task.status,
+                task.id
+            )
+        )
+
+        connection.commit()
+        connection.close()

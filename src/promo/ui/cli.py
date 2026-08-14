@@ -50,13 +50,28 @@ class CLI:
             self.update_task(args)
 
     def update_task(self, args):
-        self.task_service.update(
-            task_id=args.task_id,
-            title=args.title,
-            description=args.description,
-            category=args.category,
-            status=args.status
-        )
+        if all([
+            args.title is None,
+            args.description is None,
+            args.category is None,
+            args.status is None
+        ]):
+            print(f"Update Error: No field is provided with update")
+            return
+        
+        try:
+            self.task_service.update(
+                task_id=args.task_id,
+                title=args.title,
+                description=args.description,
+                category=args.category,
+                status=args.status
+            )
+            print(f"Task {args.task_id} updated.")
+
+        except ValueError as e:
+            print (f"Update Error : {e}")    
+
     def list_tasks(self, args):
         tasks = self.task_service.find_tasks(args.category)
 
