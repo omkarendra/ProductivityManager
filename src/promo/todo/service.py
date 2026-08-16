@@ -1,6 +1,6 @@
 # src/promo/todo/service.py
 
-from build.lib.promo.todo import task
+
 from promo.todo.category import Category
 from promo.todo.category_repository import CategoryRepository
 from promo.todo.repository import TaskRepository
