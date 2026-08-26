@@ -12,7 +12,7 @@ class SQLiteTaskRepository(TaskRepository):
     def save(self, task: Task):
         connection = sqlite3.connect(self.database_path)
 
-        connection.execute(
+        cursor = connection.execute(
             """
             INSERT INTO tasks (
             title, description, category_id, status)
@@ -20,7 +20,8 @@ class SQLiteTaskRepository(TaskRepository):
             """,
             (task.title, task.description, task.category_id, task.status)
         )
-
+        task.id = cursor.lastrowid
+        
         connection.commit()
         connection.close()
 
