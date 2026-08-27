@@ -1,13 +1,36 @@
-# Virtual environment
-.venv/
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
 
-# Python generated files
-__pycache__/
-*.py[cod]
-*.egg-info/
+# Flutter / Dart generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
 
-# Testing
-.pytest_cache/
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+ios/Flutter/.last_build_id
+
+# macOS
+macos/Pods/
+macos/Flutter/ephemeral/
 
 # IDE
+.idea/
 .vscode/
+
+# Generated files
+*.iml
