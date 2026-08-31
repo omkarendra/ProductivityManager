@@ -18,15 +18,13 @@ class PluginManager {
     final index = _plugins.indexWhere((p) => p.id == pluginId);
 
     if (index == -1) {
-      throw StateError('Plugin not registered: $pluginId');
+      return;
     }
 
     final plugin = _plugins[index];
-
     await plugin.dispose();
     _plugins.removeAt(index);
   }
-
   Future<void> dispose() async {
     for (final plugin in _plugins.reversed) {
       await plugin.dispose();

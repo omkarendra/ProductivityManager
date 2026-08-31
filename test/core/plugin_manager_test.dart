@@ -64,13 +64,12 @@ void main() {
       expect(manager.plugins, isEmpty);
     });
 
-    test('rejects unregistering an unknown plugin', () async {
+    test('does nothing when unregistering an unknown plugin', () async {
       final manager = PluginManager();
 
-      expect(
-        () => manager.unregister('unknown'),
-        throwsA(isA<StateError>()),
-      );
+      await manager.unregister('unknown');
+
+      expect(manager.plugins, isEmpty);
     });
 
     test('disposes all plugins', () async {
